@@ -1,0 +1,22 @@
+BSA_VERSION=R1.1.1
+BSA_TOP=$(PACKAGE_SITE_TOP)/timing/bsa/$(BSA_VERSION)
+
+BUILDROOT_VERSION=buildroot-2016.11.1-
+
+BSA_TOP_ARCH_default=$(BSA_TOP)/$(patsubst linuxRT-%,$(BUILDROOT_VERSION)%,$(T_A))
+
+BSA_TOP_ARCH_linuxRT-arm_zynq=$(BSA_TOP)/$(BUILDROOT_VERSION)zynq
+
+BSA_TOP_ARCH=$(or $(BSA_TOP_ARCH_$(T_A)),$(BSA_TOP_ARCH_default))
+
+BSA_INCLUDES_default=$(BSA_TOP_ARCH)/include
+
+bsa_DIR_default=$(BSA_TOP_ARCH)/lib
+
+BSA_INCLUDES:=$(wildcard $(or $(BSA_INCLUDES_$(T_A)),$(BSA_INCLUDES_default)))
+
+bsa_DIR:=$(wildcard $(or $(BSA_LIBS_$(T_A)),$(bsa_DIR_default)))
+
+BSA_LIBS+=bsa
+
+INCLUDES+=$(addprefix -I,$(BSA_INCLUDES))
